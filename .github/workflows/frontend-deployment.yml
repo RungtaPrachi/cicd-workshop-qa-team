@@ -19,7 +19,9 @@ jobs:
           node-version: '20' # Specify your Node.js version
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd Frontend
+          npm install
 
       - name: Build Frontend
         run: npm run build # Or your specific build command
@@ -37,4 +39,4 @@ jobs:
       - name: Invalidate CloudFront Cache (Optional)
         if: success() # Only run if S3 upload is successful
         run: |
-          aws cloudfront create-invalidation --distribution-id YOUR_CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.YOUR_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
